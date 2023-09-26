@@ -1,0 +1,137 @@
+## **Cleaning Data**
+
+**Finding Duplicates**
+
+*Film Table*
+
+--Checking for duplicate entries
+SELECT film_id,
+  title,
+  description,
+  release_year,
+  language_id,
+  rental_duration,
+  length,
+  replacement_cost,
+  rating,
+  COUNT(*)
+FROM film
+GROUP BY film_id,
+  title,
+  description,
+  release_year,
+  language_id,
+  rental_duration,
+  rental_rate,
+  rating
+HAVING COUNT (*) > 1;
+
+--The output produced no results, which means the film table does not have any duplicate entries
+
+*Customer Table*
+
+--Checking for duplicate entries
+SELECT customer_id,
+  store_id,
+  first_name,
+  last_name,
+  address_id,
+  activebool,
+  COUNT(*)
+FROM customer
+GROUP BY customer_id,
+  store_id,
+  first_name,
+  last_name,
+  address_id,
+  activebool,
+  HAVING COUNT(*) > 1;
+
+--The output produced no results, which means the customer table does not have any duplicate entries
+
+**Non-Uniform Instances**
+
+*Film Table*
+
+SELECT DISTINCT release_year
+FROM film;
+
+--Unique values for release_year
+--Since 2006 is the only values, then all the movies in this data set were released in 2006
+
+SELECT DISTINCT rental_duration
+FROM film;
+
+--Unique values for rental_duration
+--Results are 3, 4, 5, 6, and 7, the time measurement is days, these are the times customers rent movies
+
+SELECT DISTINCT rental_rate
+FROM film;
+
+--Unique values for rental_rate
+--Results are 2.99, 4.99, and 0.99, the currency is the dollar
+
+SELECT DISTINCT rating
+FROM film;
+
+--Unique values for rating (movie ratings)
+--Results are G, PG, PG-13, R, NC-17
+
+*Customer Table*
+
+SELECT DISTINCT active
+FROM customer;
+
+--Unique values for active
+--Results are 0 and 1, Not active or active customers
+
+**Missing Data**
+
+*Film Table*
+
+SELECT *
+FROM film
+WHERE film_id IS NULL;
+
+--Checking for null values in the film_id column, there are none
+
+*Customer Table*
+
+SELECT *
+FROM customer
+WHERE customer_id IS NULL;
+
+--Checking for null values in the customer_id column, there are none
+
+**General Statistics**
+
+*Film Table*
+
+SELECT MIN(rental_duration) AS min_rental_duration,
+  MAX(rental_duration) AS max_rental_duration,
+  AVG(rental_duration) AS avg_rental_duration,
+  COUNT(rental_duration) AS count_rental_duration,
+  MIN(rental_rate) AS min_rental_rate,
+  MAX(rental_rate) AS max_rental_rate,
+  AVG(rental_rate) AS avg_rental_rate,
+  COUNT(rental_rate) AS count_rental_rate,
+  MIN(length) AS min_length,
+  MAX(length) AS max_length,
+  AVG(length) AS avg_length,
+  COUNT(length) AS count_length,
+  MIN(replacement_cost) AS min_replacement_cost,
+  MAX(replacement_cost) AS max_replacement_cost,
+  AVG(replacement_cost) AS avg_replacement_cost,
+  COUNT(replacement_cost) AS count_replacement_cost,
+  COUNT(*) AS count_rows
+FROM film;
+
+*Customer Table*
+
+SELECT MODE() WITHIN GROUP (ORDER BY title) AS title_mode,
+  MODE() WITHIN GROUP (ORDER BY description) AS description_mode,
+  MODE() WITHIN GROUP (ORDER BY release_year) AS release_year_mode,
+  MODE() WITHIN GROUP (ORDER BY rating) AS rating_mode,
+  MODE() WITHIN GROUP (ORDER BY special_features) AS special_features_mode,
+  MODE() WITHIN GROUP (ORDER BY last_update) AS last_update_mode,
+  MODE() WITHIN GROUP (ORDER BY fulltext) AS fulltext_mode
