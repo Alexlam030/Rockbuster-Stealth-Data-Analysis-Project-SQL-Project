@@ -1,8 +1,8 @@
-## **Cleaning Data**
+Cleaning Data
 
-**Finding Duplicates**
+Finding Duplicates:
 
-*Film Table*
+Film Table
 
 --Checking for duplicate entries
 SELECT film_id,
@@ -28,7 +28,7 @@ HAVING COUNT (*) > 1;
 
 --The output produced no results, which means the film table does not have any duplicate entries
 
-*Customer Table*
+Customer Table
 
 --Checking for duplicate entries
 SELECT customer_id,
@@ -49,9 +49,9 @@ GROUP BY customer_id,
 
 --The output produced no results, which means the customer table does not have any duplicate entries
 
-**Non-Uniform Instances**
+Non-Uniform Instances:
 
-*Film Table*
+Film Table
 
 SELECT DISTINCT release_year
 FROM film;
@@ -77,7 +77,7 @@ FROM film;
 --Unique values for rating (movie ratings)
 --Results are G, PG, PG-13, R, NC-17
 
-*Customer Table*
+Customer Table
 
 SELECT DISTINCT active
 FROM customer;
@@ -85,9 +85,9 @@ FROM customer;
 --Unique values for active
 --Results are 0 and 1, Not active or active customers
 
-**Missing Data**
+Missing Data:
 
-*Film Table*
+Film Table
 
 SELECT *
 FROM film
@@ -95,7 +95,7 @@ WHERE film_id IS NULL;
 
 --Checking for null values in the film_id column, there are none
 
-*Customer Table*
+Customer Table
 
 SELECT *
 FROM customer
@@ -103,9 +103,9 @@ WHERE customer_id IS NULL;
 
 --Checking for null values in the customer_id column, there are none
 
-**General Statistics**
+General Statistics:
 
-*Film Table*
+Film Table
 
 SELECT MIN(rental_duration) AS min_rental_duration,
   MAX(rental_duration) AS max_rental_duration,
@@ -126,7 +126,7 @@ SELECT MIN(rental_duration) AS min_rental_duration,
   COUNT(*) AS count_rows
 FROM film;
 
-*Customer Table*
+Customer Table
 
 SELECT MODE() WITHIN GROUP (ORDER BY title) AS title_mode,
   MODE() WITHIN GROUP (ORDER BY description) AS description_mode,
