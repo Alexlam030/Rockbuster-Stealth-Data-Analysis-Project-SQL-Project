@@ -1,0 +1,46 @@
+--Top 10 countries for Rockbuster in terms of customer numbers
+
+SELECT D.country
+  D.country_id,
+COUNT(customer_id) AS number_of_customers
+FROM customer A
+INNER JOIN address B ON A.address._id = B.address_id
+INNER JOIN city C ON B.city._id = C.city_id
+INNER JOIN country D ON C.country._id = D.country_id
+GROUP BY country, D.country_id
+ORDER BY number_of_customers DESC
+LIMIT 10;
+
+--Top 10 cities in top countries for Rockbuster in terms of customer numbers
+
+SELECT D.country,
+  D.country,
+  city,
+  C.city_id,
+  COUNT(cusomter_id) AS number_of_customers
+FROM customer A
+INNER JOIN address B ON A.address._id = B.address_id
+INNER JOIN city C ON B.city._id = C.city_id
+INNER JOIN country D ON C.country._id = D.country_id
+WHERE country IN ('India', 'China', 'United States', 'Japan', 'Mexico', 'Brazil', 'Russian Ferderation', 'Philippines;, 'Turkey', 'Indonesia')
+GROUP BY country, D.country_id, city, C.city_id
+ORDER BY number_of_customers DESC
+LIMIT 10;
+
+--Top 5 customers measured by total_amount_paid from top cities
+
+SELECT A.customer_id,
+  first_name,
+  last_name,
+  country,
+  city,
+  SUM(amount) AS total_amount_paid
+FROM payment A
+INNER JOIN customer B ON A.customer._id = B.customer_id
+INNER JOIN address C ON B.address._id = C.address_id
+INNER JOIN city D ON C.city._id = D.city_id
+INNER JOIN country E ON D.country_id = E.country_id
+WHERE city IN ('Aurora, 'Purnea (Purnia)', 'Luzinia', 'Hiroshima', 'Greensboro')
+GROUP BY A.customer_id, first_name, last_name, country, city
+ORDER BY total_amount_paid DESC
+LIMIT 5;
